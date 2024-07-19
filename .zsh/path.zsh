@@ -1,4 +1,5 @@
 export PATH="/Users/mark/.local/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/Users/mark/go/bin:$PATH"
 export PATH="/Users/mark/Library/Python/3.9/bin:$PATH"
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
