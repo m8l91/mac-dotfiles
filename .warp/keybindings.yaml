@@ -1,0 +1,26 @@
+---
+"pane_group:navigate_down": ctrl-shift-J
+"pane_group:resize_right": none
+"terminal:ask_ai_assistant": none
+"workspace:activate_prev_tab": ctrl-shift-H
+"editor_view:add_cursor_below": none
+"pane_group:navigate_left": none
+"input:toggle_natural_language_command_search": none
+"pane_group:add_down": ctrl-shift-O
+"pane_group:navigate_up": ctrl-shift-K
+"pane_group:add_left": none
+"editor_view:add_cursor_above": none
+"workspace:toggle_ai_assistant": ctrl-x
+"pane_group:navigate_right": none
+"pane_group:resize_up": ctrl-shift-up
+"pane_group:toggle_maximize_pane": ctrl-1
+"pane_group:resize_down": ctrl-shift-down
+"terminal:select_next_block": cmd-down
+"workspace:move_tab_right": none
+"terminal:select_previous_block": ctrl-shift-up
+"pane_group:add_right": ctrl-shift-I
+"pane_group:navigate_next": alt-tab
+"workspace:move_tab_left": none
+"pane_group:resize_left": none
+"workspace:close_active_tab": shift-cmd-W
+"workspace:activate_next_tab": ctrl-shift-L
