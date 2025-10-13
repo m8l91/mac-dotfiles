@@ -15,6 +15,7 @@ alias ap="ansible-playbook"
 alias dt="datree"
 alias vi="lvim"
 alias gitdog="git log --all --decorate --oneline --graph"
+export KUBE_EDITOR=vim
 
 # mac OS shortcuts
 alias code="open -a 'Visual Studio Code'"

@@ -3,7 +3,7 @@
 add_newline = false  # Inserts a blank line between shell prompts
 [line_break]
 disabled = true  # Disables the line break between modules
-command_timeout = 1000  # Change command timeout from 500 to 1000 ms
+command_timeout = 5000  # Change command timeout from 500 to 1000 ms
 # format = """$env_var $all"""  # Add custom formatting before other stuff
 
 # Drop ugly default prompt characters
@@ -104,3 +104,4 @@ disabled = true
 
 [terraform]
 disabled = false
+

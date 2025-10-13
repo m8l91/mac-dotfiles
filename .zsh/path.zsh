@@ -1,6 +1,8 @@
 export PATH="/Users/$USER/.local/bin:$PATH"
+export PATH="/Users/$USER/sandbox/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/Users/$USER/go/bin:$PATH"
+export PATH="/Users/$USER/sandbox/bin:$PATH"
 export PATH="/Users/$USER/Library/Python/3.9/bin:$PATH"
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 # MVN installation version
