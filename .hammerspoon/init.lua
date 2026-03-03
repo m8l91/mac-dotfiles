@@ -1,87 +1,85 @@
+hs.window.animationDuration = 0
 
-local terminalApp = hs.appfinder.appFromName("Warp")
-local textApp = hs.appfinder.appFromName("Sublime")
+local WARP_BUNDLE = "dev.warp.Warp-Stable"
+local TOGGLE_TAB = "TERM"
+local toggleWindowID = nil
+
+-- Scan Warp windows for one with the toggle tab name
+function scanForToggleWindow()
+  local app = hs.application.get(WARP_BUNDLE)
+  if not app then return end
+  for _, win in ipairs(app:allWindows()) do
+    if string.find(win:title(), TOGGLE_TAB) then
+      toggleWindowID = win:id()
+      return
+    end
+  end
+end
+
+-- Watch for Warp windows with toggle tab name and remember them
+local warpFilter = hs.window.filter.new(false):setAppFilter("Warp")
+warpFilter:subscribe(hs.window.filter.windowTitleChanged, function(win)
+  if win and string.find(win:title(), TOGGLE_TAB) then
+    toggleWindowID = win:id()
+  end
+end)
+warpFilter:subscribe(hs.window.filter.windowFocused, function(win)
+  if win and string.find(win:title(), TOGGLE_TAB) then
+    toggleWindowID = win:id()
+  end
+end)
+
+-- Scan on startup (delayed to let Warp finish launching)
+hs.timer.doAfter(2, scanForToggleWindow)
 
 function toggleTerminal()
-  if terminalApp then
-    if terminalApp:isFrontmost() then
-        terminalApp:hide()
+  -- Try to find the marked window
+  local win = toggleWindowID and hs.window.get(toggleWindowID)
+
+  if win then
+    local front = hs.application.frontmostApplication()
+    if front and front:bundleID() == WARP_BUNDLE and win == hs.window.focusedWindow() then
+      win:minimize()
     else
-        terminalApp:activate()
-        terminalApp:mainWindow():focus()
+      win:unminimize()
+      win:focus()
     end
   else
-    hs.application.open("Warp")
-    hs.reload()
+    -- No marked window — fall back to whole-app toggle
+    toggleWindowID = nil
+    local front = hs.application.frontmostApplication()
+    if front and front:bundleID() == WARP_BUNDLE then
+      front:hide()
+    else
+      local app = hs.application.get(WARP_BUNDLE)
+      if app then
+        app:activate()
+      else
+        hs.application.open(WARP_BUNDLE)
+      end
+    end
   end
 end
 
 function toggleText()
-  if textApp then
-    if textApp:isFrontmost() then
-        textApp:hide()
-    else
-        textApp:activate()
-        textApp:mainWindow():focus()
-    end
+  local front = hs.application.frontmostApplication()
+  if front and front:name() == "Sublime Text" then
+    front:hide()
   else
-    hs.application.open("Sublime")
-    hs.reload()
+    local app = hs.application.get("Sublime Text")
+    if app then
+      app:activate()
+    else
+      hs.application.open("Sublime Text")
+    end
   end
 end
 
-function bringToFront(appName)
-    local app = hs.application.get(appName)
-    if app then
-        local mainwin = app:mainWindow()
-        if mainwin then
-            mainwin:application():activate(true)
-            mainwin:application():unhide()
-            mainwin:focus()
-        end
-    end
-end
-
 function reloadConfig()
-    hs.reload()
-    hs.alert.show("Hammerspoon config reloaded")
-    
+  hs.reload()
+  hs.alert.show("Hammerspoon config reloaded")
 end
 
--- Bind keyboard shortcut to reload Hammerspoon config
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "R", reloadConfig)
-
--- Bind keyboard shortcut to toggle Terminal
 hs.hotkey.bind({"ctrl"}, "`", toggleTerminal)
 hs.hotkey.bind({"ctrl", "shift"}, "u", toggleText)
-
--- hs.hotkey.bind({"ctrl"}, "`", toggleTerminal)
---
--- function moveTerminalToCurrentSpace()
---     local terminalApp = hs.appfinder.appFromName(terminalAppName)
---     if terminalApp then
---         local frontmostWindow = hs.window.frontmostWindow()
---         if frontmostWindow then
---             frontmostWindow:spacesMoveToNextScreen() -- Move the window to the current space/screen
---         end
---     end
--- end
-
---
---
--- Function opt bring the frontmost window of the specified application to the front
--- J
--- -- -- Create a window filter for the terminal and Sublime Text
--- local terminalFilter = hs.window.filter.new("Terminal")
--- local sublimeFilter = hs.window.filter.new("Sublime Text")
--- --
--- -- -- Callback function when the terminal window loses focus
--- terminalFilter:subscribe(hs.window.filter.windowUnfocused, function()
---     bringToFront("Terminal")
--- end)
--- -- --
--- -- -- Callback function when the Sublime window loses focus
--- terminalFilter:subscribe(hs.window.filter.windowUnfocused, function()
---     bringToFront("Sublime Text")
--- end)
--- Reload Hammerspoon config
