@@ -12,7 +12,7 @@
 "editor_view:add_cursor_above": none
 "workspace:toggle_ai_assistant": ctrl-x
 "pane_group:navigate_right": none
-"pane_group:resize_up": ctrl-shift-up
+"pane_group:resize_up": none
 "pane_group:toggle_maximize_pane": ctrl-1
 "pane_group:resize_down": ctrl-shift-down
 "terminal:select_next_block": cmd-down

@@ -14,6 +14,6 @@ eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/mpowell/.rd/bin:$PATH"
+export PATH="/Users/$USER/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
