@@ -33,30 +33,36 @@ end)
 hs.timer.doAfter(2, scanForToggleWindow)
 
 function toggleTerminal()
-  -- Try to find the marked window
-  local win = toggleWindowID and hs.window.get(toggleWindowID)
+  local app = hs.application.get(WARP_BUNDLE)
+  if not app then
+    hs.application.open(WARP_BUNDLE)
+    return
+  end
+
+  -- Fast path: search only Warp's windows instead of all system windows
+  local win = nil
+  if toggleWindowID then
+    for _, w in ipairs(app:allWindows()) do
+      if w:id() == toggleWindowID then
+        win = w
+        break
+      end
+    end
+  end
 
   if win then
-    local front = hs.application.frontmostApplication()
-    if front and front:bundleID() == WARP_BUNDLE and win == hs.window.focusedWindow() then
+    local focused = hs.window.focusedWindow()
+    if focused and win:id() == focused:id() then
       win:minimize()
     else
-      win:unminimize()
-      win:focus()
+      win:raise()
     end
   else
-    -- No marked window — fall back to whole-app toggle
     toggleWindowID = nil
-    local front = hs.application.frontmostApplication()
-    if front and front:bundleID() == WARP_BUNDLE then
-      front:hide()
+    if app:isFrontmost() then
+      app:hide()
     else
-      local app = hs.application.get(WARP_BUNDLE)
-      if app then
-        app:activate()
-      else
-        hs.application.open(WARP_BUNDLE)
-      end
+      app:activate()
     end
   end
 end
